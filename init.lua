@@ -42,19 +42,17 @@ Recommended first step: run Tutor
 	found in comments. These are documentation references for each relevant
 	setting, plugin or feature in Neovim used in the config.
 
+	There are several `:help X` comments scattered throughout this config file.
+	These are hints about where to find more information about the relevant
+	settings, plugins or Neovim features used by the configuration.
 
+	NB: Look for comments that start like so.
 
-	I have left several `:help X` comments throughout the init.lua
-		These are hints about where to find more information about the relevant settings,
-		plugins or Neovim features used in Kickstart.
+	Throughout the file. These are for you, the reader, to help you understand
+	what is happening. Feel free to delete them once you understand what you
+	are doing. They should still serve as a guide for when you are first encountering a few different constructs in your Neovim config.
 
-	 NB: Look for lines like this
-
-		Throughout the file. These are for you, the reader, to help you understand what is happening.
-		Feel free to delete them once you know what you're doing, but they should serve as a guide
-		for when you are first encountering a few different constructs in your Neovim config.
-
-If you experience any errors while trying to install kickstart, run `:checkhealth` to get more info.
+If you experience any errors while trying to setup Neovim with this config, run `:checkhealth` to get more info.
 
 Kindest regards,
  - Vegard
@@ -62,7 +60,7 @@ Kindest regards,
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
--- NB: Must happen before plugins are loaded
+-- NB: Must happen before all other plugins are loaded
 -- (otherwise, the wrong leader key will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -78,7 +76,14 @@ vim.opt.softtabstop = 0 -- always indent with TAB
 vim.opt.smartindent = true
 vim.opt.wrap = false -- keep the long lines runnin'
 vim.opt.isfname:append("@-@")
-vim.opt.colorcolumn = "80" -- put a highlight at column 80
+vim.opt.colorcolumn = '80' -- put a highlight at column 80
+vim.opt.swapfile = false -- no swap files
+
+-- Clear highlights on search when pressing <Esc> in normal mode
+-- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+--	See `:help hlsearch` - these lines disable highlight search
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
 
 -- NB: Set this setting to false if you do not have a Nerd Font installed
 -- and selected in the terminal
@@ -103,7 +108,8 @@ vim.schedule(function()
 	vim.o.clipboard = 'unnamedplus'
 end)
 
-vim.o.breakindent = true -- Enable break indent
+-- Enable break indent
+vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
@@ -112,11 +118,11 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
+-- Keep sign column on by default
 vim.o.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 100
 
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300
@@ -154,11 +160,8 @@ vim.o.confirm = true
 -- [[ Basic Keymaps ]]
 --	See `:help vim.keymap.set()`
 
--- Clear highlights on search when pressing <Esc> in normal mode
--- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
---	See `:help hlsearch` - these lines disable highlight search
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+-- run prettier, black, 
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -200,7 +203,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 --	See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
 	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+	group = vim.api.nvim_create_augroup(
+		'vegardbb-highlight-yank',
+		{ clear = true }
+	),
 	callback = function()
 		vim.hl.on_yank()
 	end,
@@ -210,16 +216,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --		See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-	local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 	if vim.v.shell_error ~= 0 then
+		local out = vim.fn.system {
+			'git',
+			'clone',
+			'--filter=blob:none',
+			'--branch=stable',
+			'https://github.com/folke/lazy.nvim.git',
+			lazypath
+		}
 		error('Error cloning lazy.nvim:\n' .. out)
 	end
 end
 
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
+-- [[ Configure and install plugins with Lazy ]]
 --
 --	To check the current status of your plugins, run
 --		:Lazy
@@ -508,7 +520,7 @@ require('lazy').setup({
 			--		an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
 			--		function will be executed to configure the current buffer
 			vim.api.nvim_create_autocmd('LspAttach', {
-				group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+				group = vim.api.nvim_create_augroup('vegardbb-lsp-attach', { clear = true }),
 				callback = function(event)
 					-- NB: Remember that Lua is a real programming language, and as such it is possible
 					-- to define small helper and utility functions so you don't have to repeat yourself.
@@ -577,7 +589,7 @@ require('lazy').setup({
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-						local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+						local highlight_augroup = vim.api.nvim_create_augroup('vegardbb-lsp-highlight', { clear = false })
 						vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
 							buffer = event.buf,
 							group = highlight_augroup,
@@ -591,10 +603,10 @@ require('lazy').setup({
 						})
 
 						vim.api.nvim_create_autocmd('LspDetach', {
-							group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+							group = vim.api.nvim_create_augroup('vegardbb-lsp-detach', { clear = true }),
 							callback = function(event2)
 								vim.lsp.buf.clear_references()
-								vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+								vim.api.nvim_clear_autocmds { group = 'vegardbb-lsp-highlight', buffer = event2.buf }
 							end,
 						})
 					end
@@ -705,7 +717,8 @@ require('lazy').setup({
 			require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 			require('mason-lspconfig').setup {
-				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+				ensure_installed = {}, -- explicitly set to an empty table
+				-- installs are populated via `mason-tool-installer`
 				automatic_installation = false,
 				handlers = {
 					function(server_name)
@@ -949,21 +962,22 @@ require('lazy').setup({
 		--		- Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
 
-	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
+	-- The following comments only work if you have downloaded the entire repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
 
-	-- NB: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
+	-- NB: Next step on your Neovim journey: Add/Configure additional plugins
 	--
-	--	Here are some example plugins that I've included in the Kickstart repository.
+	--	Here are some example plugins that have been included in the repository.
 	--	Uncomment any of the lines below to enable them (you will need to restart nvim).
 	--
-	-- require 'kickstart.plugins.debug',
-	-- require 'kickstart.plugins.indent_line',
-	-- require 'kickstart.plugins.lint',
-	-- require 'kickstart.plugins.autopairs',
-	-- require 'kickstart.plugins.neo-tree',
-	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+	-- require 'vegardbb.plugins.debug',
+	-- require 'vegardbb.plugins.remap',
+	-- require 'vegardbb.plugins.indent_line',
+	-- require 'vegardbb.plugins.lint',
+	-- require 'vegardbb.plugins.autopairs',
+	-- require 'vegardbb.plugins.neo-tree',
+	-- require 'vegardbb.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
 	-- NB: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--		This is the easiest way to modularize your config.
