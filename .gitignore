@@ -45,7 +45,6 @@ test.sh
 .netrwhist
 lazy
 nvim
-nvim-conf-old
 
 spell/
 lazy-lock.json
