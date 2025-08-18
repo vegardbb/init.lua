@@ -1,26 +1,26 @@
 # init.lua
 Neovim config with sensible keymaps and batteries included.
 
-Forked from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim/tree/master).
+Manually forked from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim/tree/master).
 
 ## Introduction
 
-A starting point for Neovim that is:
+This repository provides a starting point for Neovim that is:
 
 * Small
-* Single-file
-* Completely Documented
+* In a single file
+* Well documented
 
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
+This is **NOT** a complete Neovim distribution, but rather a solid first step in forming your own configuration.
 
 ## Installation
 
-### Install Neovim
-
-Kickstart.nvim targets *only* the latest
+We typically recommend installing the latest
 ['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest
 ['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
-If you are experiencing issues, please make sure you have the latest versions.
+If you are experiencing issues, please make sure you have the latest versions installed.
+
+**A word of caution:** When running on a Linux based OS, please refrain from installing the Snap version. As it turns out, this edition prepackages treesitter, so installing it along with Lazy makes the shell spam error message reading out like `Error detected while processing FileType Autocommands for "*":` See also: https://github.com/neovim/neovim-snap/issues/8
 
 ### Install External Dependencies
 
@@ -30,18 +30,18 @@ External Requirements:
   [fd-find](https://github.com/sharkdp/fd#installation)
 - Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
 - A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Emoji fonts (Ubuntu only, and only if you want emoji!) `sudo apt install fonts-noto-color-emoji`
+  - if you have one set in your terminal, set the value of `vim.g.have_nerd_font` in `init.lua` to `true`
+- Emoji fonts (for Ubuntu only): `sudo apt install fonts-noto-color-emoji`
 - Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
+  - If you want to write Typescript, you will need `node` and `npm`
+  - If you want to write Golang, you will need the `go` binaries
   - etc.
 
 > [!NOTE]
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
 > and quick install snippets
 
-### Install Kickstart
+### Config Setup
 
 > [!NOTE]
 > [Backup](#FAQ) your previous configuration (if any exists)
@@ -56,28 +56,24 @@ Neovim's configurations are located under the following paths, depending on your
 
 #### Recommended Step
 
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo
-so that you have your own copy that you can modify, then install by cloning the
-fork to your machine using one of the commands below, depending on your OS.
+[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo, so that you have your own copy that you can modify at your own leasure, then install by cloning the fork down to your machine using one of the commands below, depending on your OS.
 
 > [!NOTE]
 > Your fork's URL will be something like this:
-> `https://github.com/<your_github_username>/kickstart.nvim.git`
+> `https://github.com/<your_github_username>/init.lua.git`
 
-You likely want to remove `lazy-lock.json` from your fork's `.gitignore` file
-too - it's ignored in the kickstart repo to make maintenance easier, but it's
-[recommended to track it in version control](https://lazy.folke.io/usage/lockfile).
+When maintaining your fork, it is generally [recommended to track `lazy-lock.json` in version control](https://lazy.folke.io/usage/lockfile).
 
-#### Clone kickstart.nvim
+#### Clone the config repository
 
 > [!NOTE]
 > If following the recommended step above (i.e., forking the repo), replace
-> `nvim-lua` with `<your_github_username>` in the commands below
+> `vegardbb` with `<your_github_username>` in the following commands
 
 <details><summary> Linux and Mac </summary>
 
 ```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clone https://github.com/vegardbb/init.lua.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 ```
 
 </details>
@@ -87,33 +83,30 @@ git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HO
 If you're using `cmd.exe`:
 
 ```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "%localappdata%\nvim"
+git clone https://github.com/vegardbb/init.lua.git "%localappdata%\nvim"
 ```
 
 If you're using `powershell.exe`
 
 ```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${env:LOCALAPPDATA}\nvim"
+git clone https://github.com/vegardbb/init.lua.git "${env:LOCALAPPDATA}\nvim"
 ```
 
 </details>
 
 ### Post Installation
 
-Start Neovim
+Start up Neovim with this command:
 
 ```sh
 nvim
 ```
 
-That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
-the current plugin status. Hit `q` to close the window.
+That is all. Lazy will install all the plugins you have. Use `:Lazy` to view the current plugin status. Press `q` to close the buffer.
 
-#### Read The Friendly Documentation
+#### Read The Friendly Manual/Documentation
 
-Read through the `init.lua` file in your configuration folder for more
-information about extending and exploring Neovim. That also includes
-examples of adding popularly requested plugins.
+Read through the `init.lua` file in your configuration folder for further information about extending and exploring Neovim. That also includes examples of adding popularly requested plugins.
 
 > [!NOTE]
 > For more information about a particular plugin check its repository's documentation.
@@ -129,27 +122,21 @@ examples of adding popularly requested plugins.
   * You should back it up and then delete all associated files.
   * This includes your existing init.lua and the Neovim files in `~/.local`
     which can be deleted with `rm -rf ~/.local/share/nvim/`
-* Can I keep my existing configuration in parallel to kickstart?
-  * Yes! You can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
-    to maintain multiple configurations. For example, you can install the kickstart
-    configuration in `~/.config/nvim-kickstart` and create an alias:
+* Can I keep my existing configuration in parallel to this one?
+  * Yes, you can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
+    to maintain multiple configurations. For example, you can install this configuration in `~/.config/nvim-vegardbb` and create an alias:
     ```
-    alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
+    alias nvim-vegardbb='NVIM_APPNAME="nvim-vegardbb" nvim'
     ```
-    When you run Neovim using `nvim-kickstart` alias it will use the alternative
-    config directory and the matching local directory
-    `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
+    When you run Neovim using `nvim-vegardbb` alias it will use the alternative config directory and the matching local directory
+    `~/.local/share/nvim-vegardbb`. You may apply this approach to any Neovim
     distribution that you would like to try out.
-* What if I want to "uninstall" this configuration:
+* *What if I want to "uninstall" this configuration?*
   * See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  * The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the
-    same functionality is available here:
+* *Why is the entire configuration stored in a single file? Wouldn't it make sense to split it into multiple files?*
+  * You are free to do so with your own fork/clone. Curiously enough, there already is a fork of `kickstart.nvim` that splits out modules into their own directories. It is available here:
     * [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
-  * Discussions on this topic can be found here:
+  * Further discussion on this topic can be found here:
     * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
     * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
 
@@ -157,7 +144,7 @@ examples of adding popularly requested plugins.
 
 Below you can find OS specific install instructions for Neovim and dependencies.
 
-After installing all the dependencies continue with the [Install Kickstart](#Install-Kickstart) step.
+After installing all the dependencies continue with the [Config Setup](#Config Setup) step.
 
 #### Windows Installation
 
@@ -241,4 +228,3 @@ sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
 sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 </details>
-

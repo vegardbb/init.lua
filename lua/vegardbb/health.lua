@@ -1,8 +1,6 @@
 --[[
---
--- This file is not required for your own configuration,
--- but helps people determine if their system is setup correctly.
---
+This file is not required for your own configuration,
+but helps people determine if their system is setup correctly.
 --]]
 
 local check_version = function()
@@ -35,7 +33,7 @@ end
 
 return {
   check = function()
-    vim.health.start 'kickstart.nvim'
+    vim.health.start 'vegardbb/init.lua'
 
     vim.health.info [[NOTE: Not every warning is a 'must-fix' in `:checkhealth`
 
