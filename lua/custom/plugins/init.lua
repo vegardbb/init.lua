@@ -1,5 +1,3 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
---
--- See the the README file for more information
+-- You may add your own plugins here or in other files in this directory
+-- See the README file for more information
 return {}
