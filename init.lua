@@ -66,26 +66,26 @@ Kindest regards,
 -- (otherwise, the wrong leader key will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.guicursor = "" -- unset cursor
-vim.opt.termguicolors = true
-vim.opt.nu = true -- show line numbers in front of each line
-vim.opt.relativenumber = true -- very useful when jumping with j and k
+vim.o.guicursor = "" -- unset cursor
+vim.o.termguicolors = true
+vim.o.nu = true -- show line numbers in front of each line
+vim.o.relativenumber = true -- very useful when jumping with j and k
 -- default indentation settings, may be overridden
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = false
-vim.opt.softtabstop = 0 -- always indent with TAB
-vim.opt.smartindent = true
-vim.opt.wrap = false -- keep the long lines runnin'
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = false
+vim.o.softtabstop = 0 -- always indent with TAB
+vim.o.smartindent = true
+vim.o.wrap = false -- keep the long lines runnin'
 vim.opt.isfname:append("@-@")
-vim.opt.colorcolumn = '80' -- put a highlight at column 80
-vim.opt.swapfile = false -- no swap files
+vim.o.colorcolumn = '80' -- put a highlight at column 80
+vim.o.swapfile = false -- no swap files
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 -- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 --	See `:help hlsearch` - these lines disable highlight search
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
 
 -- NB: Set this setting to false if you do not have a Nerd Font installed
 -- and selected in the terminal
