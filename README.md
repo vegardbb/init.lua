@@ -139,6 +139,8 @@ Read through the `init.lua` file in your configuration folder for further inform
   * Further discussion on this topic can be found here:
     * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
     * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
+* *How to filter out this and that annoying TS diagnostic message?*
+  * See line 970 in `init.lua` for one such example. For a full list of diagnostic codes in Typescript, see the [codes in the diagnosticMessages.json](https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json) file in the Typescript repository.
 
 ### Install Recipes
 
