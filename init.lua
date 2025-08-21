@@ -493,10 +493,7 @@ require('lazy').setup({
 				'n',
 				'<leader>sw',
 				builtin.grep_string,
-				{
-					search = vim.fn.input("Grep > "),
-					desc = '[S]earch current [W]ord'
-				}
+				{ desc = '[S]earch current [W]ord' }
 			)
 			vim.keymap.set(
 				'n',
@@ -651,6 +648,8 @@ require('lazy').setup({
 						)
 					end
 
+					local builtin = require 'telescope.builtin'
+
 					-- Rename the variable under your cursor.
 					-- Most Language Servers support renaming across files
 					map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -668,7 +667,7 @@ require('lazy').setup({
 					-- Find references for the word under your cursor.
 					map(
 						'grr',
-						require('telescope.builtin').lsp_references,
+						builtin.lsp_references,
 						'[G]oto [R]eferences'
 					)
 
@@ -677,7 +676,7 @@ require('lazy').setup({
 					-- types without an actual implementation.
 					map(
 						'gri',
-						require('telescope.builtin').lsp_implementations,
+						builtin.lsp_implementations,
 						'[G]oto [I]mplementation'
 					)
 
@@ -686,7 +685,7 @@ require('lazy').setup({
 					-- function is defined, etc. To jump back, press <C-t>.
 					map(
 						'grd',
-						require('telescope.builtin').lsp_definitions,
+						builtin.lsp_definitions,
 						'[G]oto [D]efinition'
 					)
 
@@ -699,7 +698,7 @@ require('lazy').setup({
 					-- Symbols are things like variables, functions, types, etc
 					map(
 						'gO',
-						require('telescope.builtin').lsp_document_symbols,
+						builtin.lsp_document_symbols,
 						'Open Document Symbols'
 					)
 
@@ -708,8 +707,7 @@ require('lazy').setup({
 					-- entire project.
 					map(
 						'gW',
-						require('telescope.builtin')
-							.lsp_dynamic_workspace_symbols,
+						builtin.lsp_dynamic_workspace_symbols,
 						'Open Workspace Symbols'
 					)
 
@@ -719,7 +717,7 @@ require('lazy').setup({
 					-- not where it was *defined*.
 					map(
 						'grt',
-						require('telescope.builtin').lsp_type_definitions,
+						builtin.lsp_type_definitions,
 						'[G]oto [T]ype Definition'
 					)
 
@@ -898,7 +896,7 @@ require('lazy').setup({
 				-- pyright = {},
 				gopls = {},
 				rust_analyzer = {},
-				ts_ls = {},
+				tsserver = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all of
 				-- the pre-configured LSPs
 				--
@@ -906,7 +904,7 @@ require('lazy').setup({
 				-- plugins that can be useful:
 				--		https://github.com/pmizio/typescript-tools.nvim
 				--
-				-- But for many setups, the LSP (`ts_ls`) will work just fine
+				-- But for many setups, the LSP will work just fine
 				--
 
 				lua_ls = {
@@ -957,7 +955,7 @@ require('lazy').setup({
 						-- This handles overriding only values explicitly
 						-- passed by the server configuration above. Useful
 						-- when disabling certain features of an LSP (for
-						-- example, turning off formatting for ts_ls)
+						-- example, turning off formatting for tsserver)
 						server.capabilities = vim.tbl_deep_extend(
 							'force',
 							{},
@@ -1183,9 +1181,6 @@ require('lazy').setup({
 					keywords = { italic = false },
 				},
 			}
-
-			-- Load the colorscheme here
-			vim.cmd.colorscheme 'modus-vivendi'
 		end,
 	},
 
