@@ -66,7 +66,7 @@ Kindest regards,
 -- (otherwise, the wrong leader key will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.o.guicursor = "" -- unset cursor
+vim.o.guicursor = '' -- unset cursor
 vim.o.termguicolors = true
 vim.o.nu = true -- show line numbers in front of each line
 vim.o.relativenumber = true -- very useful when jumping with j and k
@@ -77,7 +77,7 @@ vim.o.expandtab = false
 vim.o.softtabstop = 0 -- always indent with TAB
 vim.o.smartindent = true
 vim.o.wrap = false -- keep the long lines runnin'
-vim.opt.isfname:append("@-@")
+vim.opt.isfname:append '@-@'
 vim.o.colorcolumn = '80' -- put a highlight at column 80
 vim.o.swapfile = false -- no swap files
 vim.o.background = 'dark' -- modus vivendi
@@ -165,7 +165,10 @@ vim.o.confirm = true
 --	See `:help vim.keymap.set()`
 
 -- run prettier, black, etc
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
+
+-- Open the file explorer
+vim.keymap.set('n', '<leader>ex', vim.cmd.Ex)
 
 -- Diagnostic keymaps
 vim.keymap.set(
@@ -200,16 +203,28 @@ vim.keymap.set(
 --
 --	See `:help wincmd` for a list of all window commands
 vim.keymap.set(
-	'n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' }
+	'n',
+	'<C-h>',
+	'<C-w><C-h>',
+	{ desc = 'Move focus to the left window' }
 )
 vim.keymap.set(
-	'n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' }
+	'n',
+	'<C-l>',
+	'<C-w><C-l>',
+	{ desc = 'Move focus to the right window' }
 )
 vim.keymap.set(
-	'n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' }
+	'n',
+	'<C-j>',
+	'<C-w><C-j>',
+	{ desc = 'Move focus to the lower window' }
 )
 vim.keymap.set(
-	'n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' }
+	'n',
+	'<C-k>',
+	'<C-w><C-k>',
+	{ desc = 'Move focus to the upper window' }
 )
 
 -- NB: Some terminals have colliding keymaps or are not able to send distinct
@@ -250,7 +265,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 			'--filter=blob:none',
 			'--branch=stable',
 			'https://github.com/folke/lazy.nvim.git',
-			lazypath
+			lazypath,
 		}
 		error('Error cloning lazy.nvim:\n' .. out)
 	end
@@ -665,11 +680,7 @@ require('lazy').setup({
 					)
 
 					-- Find references for the word under your cursor.
-					map(
-						'grr',
-						builtin.lsp_references,
-						'[G]oto [R]eferences'
-					)
+					map('grr', builtin.lsp_references, '[G]oto [R]eferences')
 
 					-- Jump to the implementation of the word under your
 					-- cursor. Useful when your language has ways of declaring
@@ -683,11 +694,7 @@ require('lazy').setup({
 					-- Jump to the definition of the word under your cursor.
 					-- This is where a variable was first declared, or where a
 					-- function is defined, etc. To jump back, press <C-t>.
-					map(
-						'grd',
-						builtin.lsp_definitions,
-						'[G]oto [D]efinition'
-					)
+					map('grd', builtin.lsp_definitions, '[G]oto [D]efinition')
 
 					-- NB: This is not Goto Definition, this is
 					-- Goto Declaration. For example, in C this would take you
@@ -750,9 +757,8 @@ require('lazy').setup({
 					--
 					-- When you move your cursor, the highlights will be
 					-- cleared (the second autocommand).
-					local client = vim.lsp.get_client_by_id(
-						event.data.client_id
-					)
+					local client =
+						vim.lsp.get_client_by_id(event.data.client_id)
 					local text_document_highlight =
 						vim.lsp.protocol.Methods.textDocument_documentHighlight
 					local client_supports_doc_highlight = client_supports_meth(
@@ -767,7 +773,7 @@ require('lazy').setup({
 						)
 						vim.api.nvim_create_autocmd({
 							'CursorHold',
-							'CursorHoldI'
+							'CursorHoldI',
 						}, {
 							buffer = event.buf,
 							group = highlight_augroup,
@@ -776,7 +782,7 @@ require('lazy').setup({
 
 						vim.api.nvim_create_autocmd({
 							'CursorMoved',
-							'CursorMovedI'
+							'CursorMovedI',
 						}, {
 							buffer = event.buf,
 							group = highlight_augroup,
@@ -792,7 +798,7 @@ require('lazy').setup({
 								vim.lsp.buf.clear_references()
 								vim.api.nvim_clear_autocmds {
 									group = 'vegardbb-lsp-highlight',
-									buffer = event2.buf
+									buffer = event2.buf,
 								}
 							end,
 						})
@@ -806,17 +812,16 @@ require('lazy').setup({
 					-- displace some of your code
 					local text_document_inlay_hint =
 						vim.lsp.protocol.Methods.textDocument_inlayHint
-					local client_supports_inlay_hint =
-						client_supports_meth(
-							client,
-							text_document_inlay_hint,
-							event.buf
-						)
+					local client_supports_inlay_hint = client_supports_meth(
+						client,
+						text_document_inlay_hint,
+						event.buf
+					)
 					if client_supports_inlay_hint then
 						local function toggle_inlay_hint()
 							vim.lsp.inlay_hint.enable(
 								not vim.lsp.inlay_hint.is_enabled {
-									bufnr = event.buf
+									bufnr = event.buf,
 								}
 							)
 						end
@@ -826,7 +831,7 @@ require('lazy').setup({
 							'[T]oggle Inlay [H]ints'
 						)
 					end
-				end
+				end,
 			})
 
 			---@function format(diagnostic)
@@ -863,8 +868,8 @@ require('lazy').setup({
 				virtual_text = {
 					source = 'if_many',
 					spacing = 2,
-					format = format
-				}
+					format = format,
+				},
 			}
 
 			-- LSP servers and clients are able to communicate to each other
@@ -942,7 +947,7 @@ require('lazy').setup({
 				'stylua', -- Used to format Lua code
 			})
 			require('mason-tool-installer').setup {
-				ensure_installed = ensure_installed
+				ensure_installed = ensure_installed,
 			}
 
 			require('mason-lspconfig').setup {
@@ -966,11 +971,10 @@ require('lazy').setup({
 					end,
 				},
 			}
-			vim.lsp.handlers["textDocument/publishDiagnostics"] = function(
+			vim.lsp.handlers['textDocument/publishDiagnostics'] = function(
 				data,
 				result,
-				ctx,
-				config
+				ctx
 			)
 				if result.diagnostics == nil then
 					return
@@ -986,12 +990,7 @@ require('lazy').setup({
 						idx = idx + 1
 					end
 				end
-				vim.lsp.diagnostic.on_publish_diagnostics(
-					data,
-					result,
-					ctx,
-					config
-				)
+				vim.lsp.diagnostic.on_publish_diagnostics(data, result, ctx)
 			end
 		end,
 	},
@@ -1006,7 +1005,7 @@ require('lazy').setup({
 				function()
 					require('conform').format {
 						async = true,
-						lsp_format = 'fallback'
+						lsp_format = 'fallback',
 					}
 				end,
 				mode = '',
@@ -1041,7 +1040,7 @@ require('lazy').setup({
 					"prettierd",
 					"prettier",
 					stop_after_first = true
-				},--]]
+				},--]],
 			},
 		},
 	},
@@ -1059,8 +1058,7 @@ require('lazy').setup({
 					-- Build Step is needed for regex support in snippets.
 					-- This step is not supported in many windows environments.
 					-- Remove the below condition to re-enable on windows.
-					local no_make =
-						vim.fn.has 'win32' == 1
+					local no_make = vim.fn.has 'win32' == 1
 						or vim.fn.executable 'make' == 0
 					if no_make then
 						return
@@ -1128,7 +1126,7 @@ require('lazy').setup({
 				-- to show the documentation after a delay.
 				documentation = {
 					auto_show = false,
-					auto_show_delay_ms = 500
+					auto_show_delay_ms = 500,
 				},
 			},
 
@@ -1137,7 +1135,7 @@ require('lazy').setup({
 				providers = {
 					lazydev = {
 						module = 'lazydev.integrations.blink',
-						score_offset = 100
+						score_offset = 100,
 					},
 				},
 			},
@@ -1177,10 +1175,11 @@ require('lazy').setup({
 				variant = 'default',
 				styles = {
 					-- Disable italics in comments and keywords
-					comments = { italic = false }, 
+					comments = { italic = false },
 					keywords = { italic = false },
 				},
 			}
+			vim.cmd.colorscheme 'modus'
 		end,
 	},
 
@@ -1189,7 +1188,7 @@ require('lazy').setup({
 		'folke/todo-comments.nvim',
 		event = 'VimEnter',
 		dependencies = { 'nvim-lua/plenary.nvim' },
-		opts = { signs = false }
+		opts = { signs = false },
 	},
 
 	{ -- Collection of various small independent plugins/modules
@@ -1245,7 +1244,7 @@ require('lazy').setup({
 				'markdown_inline',
 				'query',
 				'vim',
-				'vimdoc'
+				'vimdoc',
 			},
 			-- Autoinstall languages that are not already installed
 			auto_install = true,
@@ -1270,13 +1269,56 @@ require('lazy').setup({
 		--	- Treesitter + textobjects:
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
+	{
+		-- Cloak is a plugin that hides secret environment variables in your
+		-- code, such as API keys, passwords, etc. It does this by replacing
+		-- the text with asterisks. You may toggle it on and off with a keymap.
+		'laytan/cloak.nvim',
+		config = function()
+			require('cloak').setup {
+				enabled = true,
+				cloak_character = '*',
+				-- The applied highlight group (colors) on the cloaking,
+				-- see `:h highlight`.
+				highlight_group = 'Comment',
+				patterns = {
+					{
+						-- Match any file starting with ".env".
+						-- This can be a table to match multiple file patterns.
+						file_pattern = {
+							'*.env*',
+							'wrangler.toml',
+							'.dev.vars',
+						},
+						-- Match an equals sign and any character after it.
+						-- This can also be a table of patterns to cloak,
+						-- e.g cloak_pattern = { ":.+", "-.+" } for yaml files.
+						cloak_pattern = '=.+',
+					},
+				},
+			}
+			vim.keymap.set('n', '<leader>cl', require('cloak').toggle)
+		end,
+	},
+	{
+		'tpope/vim-fugitive', -- run Git commands from within Neovim.
+		config = function()
+			-- use the `:G` command to open the fugitive status window.
+			vim.keymap.set('n', '<leader>gs', ':G<CR>', {
+				desc = '[G]it [S]tatus',
+			})
+			vim.keymap.set('n', '<leader>gi', ':G ', {
+				desc = '[G]it command line [i]nterface',
+			})
+		end,
+	},
 
 	-- The following comments will only work if you have cloned the entire
 	-- repository, not just copy-pasted the contents of init.lua. If you want
 	-- these files, they are in the repository, so you can simply download them
 	-- and place them in the correct directories, as indicated by the require
 	-- calls below.
-
+	--
 	-- NB: Next step on your Neovim journey: Add/configure additional plugins
 	--
 	-- Here are some example plugins that have been included in the repository.
@@ -1289,7 +1331,6 @@ require('lazy').setup({
 	-- require 'vegardbb.plugins.indent_line',
 	-- require 'vegardbb.plugins.lint',
 	-- require 'vegardbb.plugins.neo-tree',
-	-- require 'vegardbb.plugins.remap',
 
 	-- NB: The import below can automatically add your own plugins,
 	-- configuration, etc from `lua/custom/plugins/*.lua`. This is the easiest
@@ -1328,4 +1369,4 @@ require('lazy').setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=4 sts=4 sw=4 et
