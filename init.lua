@@ -838,9 +838,9 @@ require('lazy').setup({
 			-- This function is used to format diagnostic messages
 			-- This is useful for languages that have different severity levels
 			-- and you want to display them differently.
+			-- see :help vim.diagnostic.message_format for more information
 			---@param diagnostic vim.Diagnostic
 			---@return string
-			---@see :help vim.diagnostic.message_format for more information
 			local function format(diagnostic)
 				local diagnostic_message = {
 					[vim.diagnostic.severity.ERROR] = diagnostic.message,
