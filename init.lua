@@ -79,10 +79,8 @@ vim.o.smartindent = true
 vim.o.wrap = false -- keep the long lines runnin'
 vim.o.colorcolumn = '80' -- put a highlight at column 80
 vim.o.swapfile = false -- no swap files
-vim.o.background = 'dark' -- modus vivendi
--- array operations still rely on the `opt` API
-vim.opt.completeopt:append 'popup'
-vim.opt.isfname:append '@-@'
+vim.o.background = 'dark' -- uses the theme modus vivendi
+vim.opt.isfname:append '@-@' -- array operations still rely on the `opt` API
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 -- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -396,7 +394,7 @@ require('lazy').setup({
 				{ '<leader>s', group = '[S]earch' },
 				{ '<leader>t', group = '[T]oggle' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-				{ "<leader>a", group = '[A]I', mode = { "n", "v" } },
+				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 			},
 		},
 	},
@@ -904,7 +902,7 @@ require('lazy').setup({
 				-- pyright = {},
 				gopls = {},
 				rust_analyzer = {},
-				tsserver = {},
+				ts_ls = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all of
 				-- the pre-configured LSPs
 				--
@@ -1319,66 +1317,67 @@ require('lazy').setup({
 		'CopilotC-Nvim/CopilotChat.nvim', -- Prompt for GitHub Copilot
 		branch = 'main',
 		cmd = 'CopilotChat',
-		dependencies = { { "nvim-lua/plenary.nvim", branch = "master" } },
+		dependencies = { { 'nvim-lua/plenary.nvim', branch = 'master' } },
 		opts = {
 			window = { width = 0.4 },
 			auto_insert_mode = true,
 		},
+		build = 'make tiktoken',
 		keys = {
 			{
-				"<leader>as",
-				"<CR>",
-				ft = "copilot-chat",
-				desc = "Submit Prompt",
-				remap = true
+				'<leader>as',
+				'<CR>',
+				ft = 'copilot-chat',
+				desc = 'Submit Prompt',
+				remap = true,
 			},
 			{
-				"<leader>aa",
+				'<leader>aa',
 				function()
-					return require("CopilotChat").toggle()
+					return require('CopilotChat').toggle()
 				end,
-				desc = "Toggle (CopilotChat)",
-				mode = { "n", "v" },
+				desc = 'Toggle (CopilotChat)',
+				mode = { 'n', 'v' },
 			},
 			{
-				"<leader>ax",
+				'<leader>ax',
 				function()
-					return require("CopilotChat").reset()
+					return require('CopilotChat').reset()
 				end,
-				desc = "Clear (CopilotChat)",
-				mode = { "n", "v" },
+				desc = 'Clear (CopilotChat)',
+				mode = { 'n', 'v' },
 			},
 			{
-				"<leader>aq",
+				'<leader>aq',
 				function()
 					vim.ui.input({
-						prompt = "Quick Chat: ",
+						prompt = 'Quick Chat: ',
 					}, function(input)
-						if input ~= "" then
-							require("CopilotChat").ask(input)
+						if input ~= '' then
+							require('CopilotChat').ask(input)
 						end
 					end)
 				end,
-				desc = "Quick Chat (CopilotChat)",
-				mode = { "n", "v" },
+				desc = 'Quick Chat (CopilotChat)',
+				mode = { 'n', 'v' },
 			},
 			{
-				"<leader>ap",
+				'<leader>ap',
 				function()
-					require("CopilotChat").select_prompt()
+					require('CopilotChat').select_prompt()
 				end,
-				desc = "Prompt Actions (CopilotChat)",
-				mode = { "n", "v" },
+				desc = 'Prompt Actions (CopilotChat)',
+				mode = { 'n', 'v' },
 			},
 		},
 		config = function(_, opts)
-			local chat = require("CopilotChat")
-			vim.api.nvim_create_autocmd("BufEnter", {
-				pattern = "copilot-chat",
+			local chat = require 'CopilotChat'
+			vim.api.nvim_create_autocmd('BufEnter', {
+				pattern = 'copilot-chat',
 				callback = function()
 					vim.opt_local.relativenumber = false
 					vim.opt_local.number = false
-				end
+				end,
 			})
 			chat.setup(opts)
 		end,
