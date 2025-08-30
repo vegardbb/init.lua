@@ -3,16 +3,6 @@ Neovim config with sensible keymaps and batteries included.
 
 Manually forked from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim/tree/master).
 
-## Introduction
-
-This repository provides a starting point for Neovim that is:
-
-* Small
-* In a single file
-* Well documented
-
-This is **NOT** a complete Neovim distribution, but rather a solid first step in forming your own configuration.
-
 ## Installation
 
 We typically recommend installing the latest
