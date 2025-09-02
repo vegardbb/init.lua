@@ -28,7 +28,7 @@ External Requirements:
   - etc.
 - You will need to setup Copilot in your GitHub settings to make copilot.nvim and CopilotChat working
 - `curl`, version 8.12, needs to be a runnable command on your system, this command is used by the aforementioned CopilotChat package
-- We also recommend running `sudo apt install lynx`, or for Windows users, download and compile the source code and add the executable binary to your PATH. Lynx is a TUI web browser used by CopilotChat.
+- We also recommend running `sudo apt install lynx`, or for Windows users, [download an installer here](https://invisible-island.net/datafiles/release/lynx-newssl-setup.exe). Lynx is a TUI web browser required by CopilotChat.
 - `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required to make parsing of TeX files work in tree-sitter
 - You will also want to create the binary file `tiktoken_core.so` under the `./lua` directory, a [64-bit version for LuaJIT is available here](https://github.com/gptlang/lua-tiktoken/releases/download/v0.2.4/tiktoken_core-linux-x86_64-luajit.so)
 

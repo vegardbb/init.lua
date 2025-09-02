@@ -1184,6 +1184,13 @@ require('lazy').setup({
 		end,
 	},
 
+	{
+		'nmac427/guess-indent.nvim',
+		config = function()
+			require('guess-indent').setup {}
+		end,
+	},
+
 	-- Highlight todo, notes, etc in comments
 	{
 		'folke/todo-comments.nvim',
