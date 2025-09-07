@@ -15,9 +15,12 @@ If you are experiencing issues, please make sure you have the latest versions in
 ### Install External Dependencies
 
 External Requirements:
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation),
-  [fd-find](https://github.com/sharkdp/fd#installation)
+- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`, or Zig)
+  - on Windows, you may use the package manager Chocolatey ìn Admin mode to install unzip `choco install unzip` and make (`choco install make`)
+- [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
+   - Can also be installed with Chocolatey in Admin mode in Windows (`choco install ripgrep`)
+- [fd-find](https://github.com/sharkdp/fd#installation)
+   - Can also be installed with Chocolatey in Admin mode in Windows (`choco install fd`)
 - Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
 - A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
   - if you have one set in your terminal, set the value of `vim.g.have_nerd_font` in `init.lua` to `true`
@@ -25,10 +28,10 @@ External Requirements:
 - Language Setup:
   - If you want to write Typescript, you will need `node` and `npm`
   - If you want to write Golang, you will need the `go` binaries
-  - etc.
+  - And so on
 - You will need to setup Copilot in your GitHub settings to make copilot.nvim and CopilotChat working
 - `curl`, version 8.12, needs to be a runnable command on your system, this command is used by the aforementioned CopilotChat package
-- We also recommend running `sudo apt install lynx`, or for Windows users, [download an installer here](https://invisible-island.net/datafiles/release/lynx-newssl-setup.exe). Lynx is a TUI web browser required by CopilotChat.
+- We also recommend isntalling Lynx, by running `sudo apt install lynx` in a Linux terminal, or for Windows users, [download an installer here](https://invisible-island.net/datafiles/release/lynx-newssl-setup.exe). Lynx is a TUI web browser used in this context by CopilotChat to get improved URL context features.
 - `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required to make parsing of TeX files work in tree-sitter
 - You will also want to create the binary file `tiktoken_core.so` under the `./lua` directory, a [64-bit version for LuaJIT is available here](https://github.com/gptlang/lua-tiktoken/releases/download/v0.2.4/tiktoken_core-linux-x86_64-luajit.so)
 
