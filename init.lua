@@ -164,18 +164,15 @@ vim.o.confirm = true
 -- [[ Basic Keymaps ]]
 --	See `:help vim.keymap.set()`
 
--- run prettier, black, etc
-vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
-
 -- Open the file explorer
-vim.keymap.set('n', '<leader>ex', vim.cmd.Ex)
+vim.keymap.set('n', '<leader>ex', vim.cmd.Ex, { desc = 'Open [Ex]plorer' })
 
 -- Diagnostic keymaps
 vim.keymap.set(
 	'n',
-	'<leader>q',
+	'<leader>dq',
 	vim.diagnostic.setloclist,
-	{ desc = 'Open diagnostic [Q]uickfix list' }
+	{ desc = 'Open [d]iagnostic [q]uickfix list' }
 )
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit
@@ -183,11 +180,12 @@ vim.keymap.set(
 -- <C-\><C-n>, which is not what someone will guess
 -- without a bit more experience.
 --
--- NB: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
+-- NB: This may not work in all terminal emulators/tmux/etc.
+-- Try your own mapping or just use <C-\><C-n> to exit terminal mode
+-- There is also the command :bd! to close the terminal buffer
 vim.keymap.set(
 	't',
-	'<Esc><Esc>',
+	'<leader>x',
 	'<C-\\><C-n>',
 	{ desc = 'Exit terminal mode' }
 )
@@ -388,10 +386,11 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
+				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
+				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+				{ '<leader>g', group = '[G]it' },
 				{ '<leader>s', group = '[S]earch' },
 				{ '<leader>t', group = '[T]oggle' },
-				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 			},
 		},
 	},
@@ -562,13 +561,14 @@ require('lazy').setup({
 				}
 			end, { desc = '[S]earch [/] in Open Files' })
 
-			vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-			vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
+			vim.keymap.set('n', '<leader>gf', builtin.git_files, {
+				desc = '[G]it [f]ile search (with Telescope)'
+			})
 
 			-- Shortcut for searching your Neovim configuration files
 			vim.keymap.set('n', '<leader>sn', function()
 				builtin.find_files { cwd = vim.fn.stdpath 'config' }
-			end, { desc = '[S]earch [N]eovim files' })
+			end, { desc = '[S]earch [N]eovim config files' })
 		end,
 	},
 
@@ -586,6 +586,7 @@ require('lazy').setup({
 			},
 		},
 	},
+
 	{
 		-- Main LSP Configuration
 		'neovim/nvim-lspconfig',
@@ -652,9 +653,8 @@ require('lazy').setup({
 					-- easily define mappings specific for LSP related items.
 					-- It auto-sets the mode, buffer and description each time.
 					local map = function(keys, func, desc, mode)
-						mode = mode or 'n'
 						vim.keymap.set(
-							mode,
+							mode or 'n',
 							keys,
 							func,
 							{ buffer = event.buf, desc = 'LSP: ' .. desc }
@@ -1002,7 +1002,9 @@ require('lazy').setup({
 				'<leader>f',
 				function()
 					require('conform').format {
+						-- edits code in parallel thread (non-blocking)
 						async = true,
+						-- calls vim.lsp.buf.format if no formatter is found
 						lsp_format = 'fallback',
 					}
 				end,
@@ -1275,6 +1277,60 @@ require('lazy').setup({
 		--	- Treesitter + textobjects:
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
+
+	{
+		-- AI-assisted coding
+		'olimorris/codecompanion.nvim',
+		event = 'VimEnter',
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'nvim-treesitter/nvim-treesitter',
+			'github/copilot.vim',
+			{
+				'stevearc/dressing.nvim',
+				opts = {},
+			},
+		},
+		opts = {
+			strategies = {
+				chat = {
+					name = "copilot",
+					-- available Copilot models include (not limited to)
+					-- "gpt-4.1", "gpt-5-mini", "claude-3.5-sonnet"
+					-- and "gemini-2.0-flash-001"
+					model = "claude-3.5-sonnet"
+				},
+			},
+			-- Do not follow cursor in the chat window
+			auto_follow_cursor = false,
+			display = {
+				chat = {
+					window = {
+						border = 'rounded',
+						size = {
+							height = '90%',
+							width = '40%',
+						},
+						position = {
+							row = '90%',
+							col = '99%',
+						},
+					},
+				},
+			},
+		},
+		-- Add keymaps for the chat
+		config = function(_, opts)
+			require('codecompanion').setup(opts)
+			vim.keymap.set('n', '<leader>ac', ':CodeCompanionChat<CR>', { 
+				desc = '[A]I [C]hat'
+			})
+			vim.keymap.set('v', '<leader>ac', ':CodeCompanionChat<CR>', { 
+				desc = '[A]I [C]hat with selection'
+			})
+		end,
+	},
+
 	{
 		-- Cloak is a plugin that hides secret environment variables in your
 		-- code, such as API keys, passwords, etc. It does this by replacing
@@ -1303,9 +1359,12 @@ require('lazy').setup({
 					},
 				},
 			}
-			vim.keymap.set('n', '<leader>cl', require('cloak').toggle)
+			vim.keymap.set('n', '<leader>tc', require('cloak').toggle, {
+				desc = '[T]oggle [C]loak',
+			})
 		end,
 	},
+
 	{
 		'tpope/vim-fugitive', -- run Git commands from within Neovim.
 		config = function()
