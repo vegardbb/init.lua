@@ -175,6 +175,35 @@ vim.keymap.set(
 	{ desc = 'Open [d]iagnostic [q]uickfix list' }
 )
 
+-- Tab browsing keymaps
+vim.keymap.set(
+	'n',
+	'<leader>pn',
+	':tabnew .<CR>',
+	{ desc = '[n]ew [p]age/tab' }
+)
+
+vim.keymap.set(
+	'n',
+	'<leader>pp',
+	':tabprevious<CR>',
+	{ desc = '[p]revious [p]age/tab' }
+)
+
+vim.keymap.set(
+	'n',
+	'<leader>ps',
+	':tabnext<CR>',
+	{ desc = '[s]ubsequent/next [p]age/tab' }
+)
+
+vim.keymap.set(
+	'n',
+	'<leader>pc',
+	':tabclose<CR>',
+	{ desc = '[c]lose [p]age/tab' }
+)
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit
 -- easier for people to discover. Otherwise, you normally need to press
 -- <C-\><C-n>, which is not what someone will guess
@@ -183,12 +212,7 @@ vim.keymap.set(
 -- NB: This may not work in all terminal emulators/tmux/etc.
 -- Try your own mapping or just use <C-\><C-n> to exit terminal mode
 -- There is also the command :bd! to close the terminal buffer
-vim.keymap.set(
-	't',
-	'<leader>x',
-	'<C-\\><C-n>',
-	{ desc = 'Exit terminal mode' }
-)
+vim.keymap.set('t', '<leader>x', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- To better practice your Vim motions, disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -390,6 +414,7 @@ require('lazy').setup({
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 				{ '<leader>l', group = '[L]SP commands' },
+				{ '<leader>p', group = '[P]age/tab' },
 				{ '<leader>s', group = '[S]earch' },
 				{ '<leader>t', group = '[T]oggle' },
 			},
@@ -563,7 +588,7 @@ require('lazy').setup({
 			end, { desc = '[S]earch [/] in Open Files' })
 
 			vim.keymap.set('n', '<leader>gf', builtin.git_files, {
-				desc = '[G]it [f]ile search (with Telescope)'
+				desc = '[G]it [f]ile search (with Telescope)',
 			})
 
 			-- Shortcut for searching your Neovim configuration files
@@ -1307,11 +1332,11 @@ require('lazy').setup({
 		opts = {
 			strategies = {
 				chat = {
-					name = "copilot",
+					name = 'copilot',
 					-- available Copilot models include (not limited to)
 					-- "gpt-4.1", "gpt-5-mini", "claude-3.5-sonnet"
 					-- and "gemini-2.0-flash-001"
-					model = "claude-3.5-sonnet"
+					model = 'claude-3.5-sonnet',
 				},
 			},
 			-- Do not follow cursor in the chat window
@@ -1335,11 +1360,11 @@ require('lazy').setup({
 		-- Add keymaps for the chat
 		config = function(_, opts)
 			require('codecompanion').setup(opts)
-			vim.keymap.set('n', '<leader>ac', ':CodeCompanionChat<CR>', { 
-				desc = '[A]I [C]hat'
+			vim.keymap.set('n', '<leader>ac', ':CodeCompanionChat<CR>', {
+				desc = '[A]I [C]hat',
 			})
-			vim.keymap.set('v', '<leader>ac', ':CodeCompanionChat<CR>', { 
-				desc = '[A]I [C]hat with selection'
+			vim.keymap.set('v', '<leader>ac', ':CodeCompanionChat<CR>', {
+				desc = '[A]I [C]hat with selection',
 			})
 		end,
 	},
