@@ -663,8 +663,7 @@ require('lazy').setup({
 			That is to say, every time a new file is opened that is associated
 			with an lsp (for example, opening `main.rs` is associated with
 			`rust_analyzer`) this function will be executed to configure the
-			current buffer
-			--]]
+			current buffer--]]
 			vim.api.nvim_create_autocmd('LspAttach', {
 				group = vim.api.nvim_create_augroup(
 					'vegardbb-lsp-attach',
@@ -938,6 +937,24 @@ require('lazy').setup({
 				-- gopls = {},
 				-- rust_analyzer = {},
 				ts_ls = {},
+				oxlint = {
+					cmd = { 'oxlint', 'lsp' },
+					filetypes = {
+						'javascript',
+						'javascriptreact',
+						'typescript',
+						'typescriptreact',
+						'json',
+					},
+					root_dir = require('lspconfig.util').root_pattern(
+						'ox.toml',
+						'oxlint.json',
+						'.oxlintrc',
+						'.oxlintrc.json',
+						'package.json',
+						'.git'
+					),
+				},
 				-- ... etc. See `:help lspconfig-all` for a list of all of
 				-- the pre-configured LSPs
 				--
@@ -1074,11 +1091,11 @@ require('lazy').setup({
 				--
 				-- You may use 'stop_after_first' to run the first available
 				-- formatter from the list
-				[[--javascript = {
-					"prettierd",
-					"prettier",
-					stop_after_first = true
-				},--]],
+				javascript = {
+					'prettier',
+					'prettierd',
+					stop_after_first = true,
+				},
 			},
 		},
 	},
