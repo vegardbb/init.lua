@@ -1079,7 +1079,7 @@ require('lazy').setup({
 					return nil
 				else
 					return {
-						timeout_ms = 500,
+						timeout_ms = 30000,
 						lsp_format = 'fallback',
 					}
 				end
@@ -1347,13 +1347,13 @@ require('lazy').setup({
 			},
 		},
 		opts = {
-			strategies = {
+			interactions = {
 				chat = {
 					name = 'copilot',
 					-- available Copilot models include (not limited to)
 					-- "gpt-4.1", "gpt-5-mini", "claude-3.5-sonnet"
 					-- and "gemini-2.0-flash-001"
-					model = 'claude-3.5-sonnet',
+					model = 'gpt-5-mini',
 				},
 			},
 			-- Do not follow cursor in the chat window

@@ -29,8 +29,8 @@ External Requirements:
   - If you want to write Typescript, you will need `node` and `npm`
   - If you want to write Golang, you will need the `go` binaries
   - And so on
-- You will need to setup Copilot in your GitHub settings to make copilot.nvim and CopilotChat working
-- `curl`, version 8.12, needs to be a runnable command on your system, this command is used by the aforementioned CopilotChat package
+- You will need to setup Copilot in your GitHub settings to make copilot.nvim and CodeCompanion working
+- `curl`, version 8.12, needs to be a runnable command on your system, this command is used by the aforementioned CodeCompanion package
 - `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required to make parsing of TeX files work in tree-sitter
 
 > [!NOTE]
@@ -52,7 +52,7 @@ Neovim's configurations are located under the following paths, depending on your
 
 #### Recommended Step
 
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo, so that you have your own copy that you can modify at your own leasure, then install by cloning the fork down to your machine using one of the commands below, depending on your OS.
+[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo, so that you have your own copy that you may modify at your own leasure, then install by cloning the fork down to your machine using one of the commands below, depending on your OS.
 
 > [!NOTE]
 > Your fork's URL will be something like this:
@@ -115,7 +115,7 @@ Read through the `init.lua` file in your configuration folder for further inform
 ### FAQ
 
 * What should I do if I already have a pre-existing Neovim configuration?
-  * You should back it up and then delete all associated files.
+  * You should make a backup of it, and then delete all associated files.
   * This includes your existing init.lua and the Neovim files in `~/.local`
     which can be deleted with `rm -rf ~/.local/share/nvim/`
 * Can I keep my existing configuration in parallel to this one?
