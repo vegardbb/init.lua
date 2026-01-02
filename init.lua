@@ -1349,7 +1349,21 @@ require('lazy').setup({
 		opts = {
 			adapters = {
 				http = {
-					ollama = require('vegardbb.plugins.ollama')
+					ollama = function()
+						return require("codecompanion.adapters").extend("ollama", {
+							env = {
+								url = "http://localhost:11434/",
+								api_key = "OLLAMA_DEAFULT_KEY",
+							},
+							headers = {
+								["Content-Type"] = "application/json",
+								["Authorization"] = "Bearer ${api_key}",
+							},
+							parameters = {
+								sync = true
+							},
+						})
+					end,
 				}
 			},
 			interactions = {
@@ -1360,7 +1374,7 @@ require('lazy').setup({
 					name = 'copilot',
 					model = 'gpt-5-mini',   -- see Copilot settings
 											-- for other available models
-				}--]],
+				}--]]
 			},
 			-- Do not follow cursor in the chat window
 			auto_follow_cursor = false,
