@@ -1348,23 +1348,19 @@ require('lazy').setup({
 		},
 		opts = {
 			adapters = {
-				http = {
-					ollama = function()
-						return require("codecompanion.adapters").extend("ollama", {
-							env = {
-								url = "http://localhost:11434/",
-								api_key = "OLLAMA_DEAFULT_KEY",
-							},
-							headers = {
-								["Content-Type"] = "application/json",
-								["Authorization"] = "Bearer ${api_key}",
-							},
-							parameters = {
-								sync = true
-							},
-						})
-					end,
-				}
+				ollama = function()
+					return require('codecompanion.adapters').extend('ollama', {
+						env = {
+							url = 'http://localhost:11434/',
+						},
+						headers = {
+							["Content-Type"] = "application/json",
+						},
+						parameters = {
+							sync = true
+						},
+					})
+				end,
 			},
 			interactions = {
 				chat = { adapter = "ollama" },
