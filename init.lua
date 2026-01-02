@@ -1347,14 +1347,20 @@ require('lazy').setup({
 			},
 		},
 		opts = {
+			adapters = {
+				http = {
+					ollama = require('vegardbb.plugins.ollama')
+				}
+			},
 			interactions = {
-				chat = {
+				chat = { adapter = "ollama" },
+				cmd = { adapter = "ollama" },
+				inline = { adapter = "ollama" },
+				--[[chat = {
 					name = 'copilot',
-					-- available Copilot models include (not limited to)
-					-- "gpt-4.1", "gpt-5-mini", "claude-3.5-sonnet"
-					-- and "gemini-2.0-flash-001"
-					model = 'gpt-5-mini',
-				},
+					model = 'gpt-5-mini',   -- see Copilot settings
+											-- for other available models
+				}--]],
 			},
 			-- Do not follow cursor in the chat window
 			auto_follow_cursor = false,
