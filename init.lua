@@ -410,7 +410,6 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
-				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 				{ '<leader>l', group = '[L]SP commands' },
