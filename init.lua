@@ -1334,57 +1334,6 @@ require('lazy').setup({
 	},
 
 	{
-		-- AI-assisted coding
-		'olimorris/codecompanion.nvim',
-		event = 'VimEnter',
-		dependencies = {
-			'nvim-lua/plenary.nvim',
-			'nvim-treesitter/nvim-treesitter',
-			'github/copilot.vim',
-			{
-				'stevearc/dressing.nvim',
-				opts = {},
-			},
-		},
-		opts = {
-			interactions = {
-				chat = {
-					name = 'copilot',
-					model = 'gpt-5-mini', -- see Copilot settings
-					-- for other available models
-				},
-			},
-			-- Do not follow cursor in the chat window
-			auto_follow_cursor = false,
-			display = {
-				chat = {
-					window = {
-						border = 'rounded',
-						size = {
-							height = '90%',
-							width = '40%',
-						},
-						position = {
-							row = '90%',
-							col = '99%',
-						},
-					},
-				},
-			},
-		},
-		-- Add keymaps for the chat
-		config = function(_, opts)
-			require('codecompanion').setup(opts)
-			vim.keymap.set('n', '<leader>ac', ':CodeCompanionChat<CR>', {
-				desc = '[A]I [C]hat',
-			})
-			vim.keymap.set('v', '<leader>ac', ':CodeCompanionChat<CR>', {
-				desc = '[A]I [C]hat with selection',
-			})
-		end,
-	},
-
-	{
 		-- Cloak is a plugin that hides secret environment variables in your
 		-- code, such as API keys, passwords, etc. It does this by replacing
 		-- the text with asterisks. You may toggle it on and off with a keymap.
@@ -1430,40 +1379,6 @@ require('lazy').setup({
 			})
 		end,
 	},
-
-	-- The following comments will only work if you have cloned the entire
-	-- repository, not just copy-pasted the contents of init.lua. If you want
-	-- these files, they are in the repository, so you can simply download them
-	-- and place them in the correct directories, as indicated by the require
-	-- calls below.
-	--
-	-- NB: Next step on your Neovim journey: Add/configure additional plugins
-	--
-	-- Here are some example plugins that have been included in the repository.
-	-- Uncomment any of the lines below to enable them
-	-- (you will need to restart nvim for the changes to take effect)
-	--
-	-- require 'vegardbb.plugins.autopairs',
-	-- require 'vegardbb.plugins.debug',
-	-- require 'vegardbb.plugins.gitsigns', -- adds gitsigns recommend keymaps
-	-- require 'vegardbb.plugins.indent_line',
-	-- require 'vegardbb.plugins.lint',
-	-- require 'vegardbb.plugins.neo-tree',
-
-	-- NB: The import below can automatically add your own plugins,
-	-- configuration, etc from `lua/custom/plugins/*.lua`. This is the easiest
-	-- way to start modularizing your config.
-	--
-	-- Uncomment the following line and add your plugins to
-	-- `lua/custom/plugins/*.lua` to get going.
-	-- { import = 'custom.plugins' },
-	--
-	-- For additional information with loading, sourcing and examples,
-	-- see `:help lazy.nvim-🔌-plugin-spec`
-	-- Or you can use telescope! While in normal mode, type `<space>sh`,
-	-- then type `lazy.nvim-plugin`
-	-- you can continue same window with `<space>sr` which resumes your last
-	-- telescope search
 }, {
 	ui = {
 		-- Use the default lazy.nvim defined Nerd Font icons
