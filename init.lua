@@ -84,7 +84,7 @@ vim.opt.isfname:append '@-@' -- array operations still rely on the `opt` API
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 -- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
---	See `:help hlsearch` - these lines disable highlight search
+-- See `:help hlsearch` - these lines disable highlight search
 vim.o.hlsearch = false
 vim.o.incsearch = true
 
@@ -95,7 +95,7 @@ vim.g.have_nerd_font = true
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NB: You can change these options as you wish!
---	For more options, you can see `:help option-list`
+-- For more options, you can see `:help option-list`
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -1347,30 +1347,12 @@ require('lazy').setup({
 			},
 		},
 		opts = {
-			adapters = {
-				ollama = function()
-					return require('codecompanion.adapters').extend('ollama', {
-						env = {
-							url = 'http://localhost:11434/',
-						},
-						headers = {
-							["Content-Type"] = "application/json",
-						},
-						parameters = {
-							sync = true
-						},
-					})
-				end,
-			},
 			interactions = {
-				chat = { adapter = "ollama" },
-				cmd = { adapter = "ollama" },
-				inline = { adapter = "ollama" },
-				--[[chat = {
+				chat = {
 					name = 'copilot',
-					model = 'gpt-5-mini',   -- see Copilot settings
-											-- for other available models
-				}--]]
+					model = 'gpt-5-mini', -- see Copilot settings
+					-- for other available models
+				},
 			},
 			-- Do not follow cursor in the chat window
 			auto_follow_cursor = false,
