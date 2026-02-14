@@ -29,9 +29,7 @@ External Requirements:
   - If you want to write Typescript, you will need `node` and `npm`
   - If you want to write Golang, you will need the `go` binaries
   - And so on
-- You will need to setup Copilot in your GitHub settings to make copilot.nvim and CodeCompanion working
-- `curl`, version 8.12, needs to be a runnable command on your system, this command is used by the aforementioned CodeCompanion package
-- `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required to make parsing of TeX files work in tree-sitter
+- `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required to make parsing of TeX files work in tree-sitter (but if you aren't loading latex projects into neovim, you'll be fine)
 
 > [!NOTE]
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
