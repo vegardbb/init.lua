@@ -410,6 +410,7 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
+			    -- TODO: setup Avante.nvim on <leader>a instead of CodeCompanion
 				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
@@ -1333,74 +1334,7 @@ require('lazy').setup({
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
 
-	{
-		-- AI-assisted coding
-		'olimorris/codecompanion.nvim',
-		event = 'VimEnter',
-		dependencies = {
-			'nvim-lua/plenary.nvim',
-			'nvim-treesitter/nvim-treesitter',
-			'github/copilot.vim',
-			{
-				'stevearc/dressing.nvim',
-				opts = {},
-			},
-		},
-		opts = {
-			adapters = {
-				ollama = function()
-					return require('codecompanion.adapters').extend('ollama', {
-						env = {
-							url = 'http://localhost:11434/',
-						},
-						headers = {
-							["Content-Type"] = "application/json",
-						},
-						parameters = {
-							sync = true
-						},
-					})
-				end,
-			},
-			interactions = {
-				chat = { adapter = "ollama" },
-				cmd = { adapter = "ollama" },
-				inline = { adapter = "ollama" },
-				--[[chat = {
-					name = 'copilot',
-					model = 'gpt-5-mini',   -- see Copilot settings
-											-- for other available models
-				}--]]
-			},
-			-- Do not follow cursor in the chat window
-			auto_follow_cursor = false,
-			display = {
-				chat = {
-					window = {
-						border = 'rounded',
-						size = {
-							height = '90%',
-							width = '40%',
-						},
-						position = {
-							row = '90%',
-							col = '99%',
-						},
-					},
-				},
-			},
-		},
-		-- Add keymaps for the chat
-		config = function(_, opts)
-			require('codecompanion').setup(opts)
-			vim.keymap.set('n', '<leader>ac', ':CodeCompanionChat<CR>', {
-				desc = '[A]I [C]hat',
-			})
-			vim.keymap.set('v', '<leader>ac', ':CodeCompanionChat<CR>', {
-				desc = '[A]I [C]hat with selection',
-			})
-		end,
-	},
+    -- TODO: PUT AVANTE.NVIM CONFIG HERE
 
 	{
 		-- Cloak is a plugin that hides secret environment variables in your
