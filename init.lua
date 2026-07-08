@@ -275,6 +275,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	end,
 })
 
+function hasMake()
+	return vim.fn.executable('make') == 1
+end
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 -- See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim
 -- for more info
@@ -410,8 +414,6 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
-			    -- TODO: setup Avante.nvim on <leader>a instead of CodeCompanion
-				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 				{ '<leader>l', group = '[L]SP commands' },
@@ -447,9 +449,7 @@ require('lazy').setup({
 
 				-- `cond` is a condition used to determine whether this plugin
 				-- should be installed and loaded.
-				cond = function()
-					return vim.fn.executable 'make' == 1
-				end,
+				cond = hasMake,
 			},
 			{ 'nvim-telescope/telescope-ui-select.nvim' },
 
@@ -1110,17 +1110,8 @@ require('lazy').setup({
 			{
 				'L3MON4D3/LuaSnip',
 				version = '2.*',
-				build = (function()
-					-- Build Step is needed for regex support in snippets.
-					-- This step is not supported in many windows environments.
-					-- Remove the below condition to re-enable on windows.
-					local no_make = vim.fn.has 'win32' == 1
-						or vim.fn.executable 'make' == 0
-					if no_make then
-						return
-					end
-					return 'make install_jsregexp'
-				end)(),
+				build = 'make install_jsregexp',
+				cond = hasMake,
 				dependencies = {
 					-- `friendly-snippets` contains a variety of premade
 					-- snippets. See the README about individual
@@ -1146,8 +1137,8 @@ require('lazy').setup({
 			keymap = {
 				-- 'default' (recommended) for mappings similar to built-in
 				-- completions: <c-y> to accept ([y]es) the completion.
-				--   This will auto-import if your LSP supports it. If the LSP
-				--   sent a snippet, this will expand snippets.
+				-- This will auto-import if your LSP supports it. If the LSP
+				-- sent a snippet, this will expand snippets.
 				-- 'super-tab' for tab to accept
 				-- 'enter' for enter to accept
 				-- 'none' for no mappings
@@ -1334,7 +1325,9 @@ require('lazy').setup({
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
 
-    -- TODO: PUT AVANTE.NVIM CONFIG HERE
+	-- TODO: Avante config here
+	-- TODO: setup Avante.nvim on group <leader>a
+	-- { '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 
 	{
 		-- Cloak is a plugin that hides secret environment variables in your
