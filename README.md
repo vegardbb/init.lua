@@ -10,13 +10,13 @@ We typically recommend installing the latest
 ['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
 If you are experiencing issues, please make sure you have the latest versions installed.
 
-**A word of caution:** When running on a Linux based OS, please refrain from installing the Snap version. As it turns out, this edition prepackages treesitter, so installing it along with Lazy makes the shell spam error message reading out like `Error detected while processing FileType Autocommands for "*":` See also: https://github.com/neovim/neovim-snap/issues/8
+**A word of caution:** When running on a Linux based OS, please refrain from installing the Snap version of Neovim. As it turns out, this edition prepackages `treesitter`, so installing it along with Lazy makes the shell occasionally spam error message reading out like `Error detected while processing FileType Autocommands for "*":` See also: https://github.com/neovim/neovim-snap/issues/8
 
 ### Install External Dependencies
 
 External Requirements:
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`, or Zig)
-  - on Windows, you may use the package manager Chocolatey ìn Admin mode to install unzip `choco install unzip` and make (`choco install make`)
+- Basic utils: `git`, `make`, `unzip`, C Compiler (e.g. `gcc` or Zig)
+  - On Windows, you may use the package manager Chocolatey ìn Admin mode to install unzip `choco install unzip` and make (`choco install make`)
 - [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
    - Can also be installed with Chocolatey in Admin mode in Windows (`choco install ripgrep`)
 - [fd-find](https://github.com/sharkdp/fd#installation)
@@ -25,13 +25,15 @@ External Requirements:
 - A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
   - if you have one set in your terminal, set the value of `vim.g.have_nerd_font` in `init.lua` to `true`
 - Emoji fonts (for Ubuntu only): `sudo apt install fonts-noto-color-emoji`
+- To make the Avante.ai plugin work, you will need the rustlang toolchain, available [here](https://rustup.rs/)
 - Language Setup:
   - If you want to write Typescript, you will need `node` and `npm`
   - If you want to write Golang, you will need the `go` binaries
   - And so on
-- You will need to setup Copilot in your GitHub settings to make copilot.nvim and CodeCompanion working
-- `curl`, version 8.12, needs to be a runnable command on your system, this command is used by the aforementioned CodeCompanion package
-- `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required to make parsing of TeX files work in tree-sitter
+- You will need to setup Copilot in your GitHub settings to make `copilot.lua` working (note: this config installs a community maintained plugin, the official one sported by Github is called `copilot.vim`, and is harder to integrate into Avante)
+  - Note that `copilot.lua` requires your Neovim installation to be v0.11.0 at oldest and Node.js at v22 at oldest, in addition to Curl
+- `curl`, at least version 8.12, needs to be a runnable command on your system
+- `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required only to make parsing of TeX files work in tree-sitter
 
 > [!NOTE]
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes

@@ -414,6 +414,7 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
+				{ '<leader>a', group = '[A]I' },
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 				{ '<leader>l', group = '[L]SP commands' },
@@ -497,6 +498,9 @@ require('lazy').setup({
 					},
 				},
 			}
+
+			-- Load environment file
+			require('plenary.environment').load_env()
 
 			-- Enable Telescope extensions if they are installed
 			pcall(require('telescope').load_extension, 'fzf')
@@ -1080,7 +1084,7 @@ require('lazy').setup({
 					return nil
 				else
 					return {
-						timeout_ms = 30000,
+						timeout_ms = 60000,
 						lsp_format = 'fallback',
 					}
 				end
@@ -1101,7 +1105,7 @@ require('lazy').setup({
 		},
 	},
 
-	{ -- Autocompletion
+	{ -- Autocompletion with Blink
 		'saghen/blink.cmp',
 		event = 'VimEnter',
 		version = '1.*',
@@ -1282,7 +1286,7 @@ require('lazy').setup({
 			--See https://github.com/echasnovski/mini.nvim for more options
 		end,
 	},
-	{ -- Highlight, edit, and navigate code
+	{ -- nvim-treesitter: Highlight, edit, and navigate code
 		'nvim-treesitter/nvim-treesitter',
 		build = ':TSUpdate',
 		main = 'nvim-treesitter.configs', -- Sets main module to use for opts
@@ -1324,11 +1328,84 @@ require('lazy').setup({
 		--	- Treesitter + textobjects:
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
-
-	-- TODO: Avante config here
-	-- TODO: setup Avante.nvim on group <leader>a
-	-- { '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
-
+	{ -- Avante: Chat + interactive AI experience, with a local Ollama server
+		'yetone/avante.nvim',
+		event = 'VeryLazy',
+		lazy = false,
+		version = false,
+		build = 'make BUILD_FROM_SOURCE=true',
+		cond = hasMake,
+		opts = {
+			selector = {exclude_auto_select = { 'NvimTree' } },
+			windows = {
+				position = 'right',
+				wrap = true,
+				width = 35
+			},
+			behaviour = {
+				acp_follow_agent_locations = true,
+				auto_add_current_file = true,
+				auto_apply_diff_after_generation = false,
+				auto_approve_tool_permissions = true,
+				auto_set_highlight_group = true,
+				auto_set_keymaps = true,
+				auto_suggestions = false,
+				confirmation_ui_style = 'inline_buttons',
+				enable_token_counting = true,
+				minimize_diff = true,
+				support_paste_from_clipboard = true
+			},
+			instructions_file = 'agents.md',
+			provider = 'ollama',
+			providers = {
+				ollama = {
+					endpoint = os.getenv('OLLAMA_API_URL'),
+					name = 'Ollama Local Models',
+					models = { 'devass:v1.2', 'gwen:v1.1', 'tab:v1.0' },
+					timeout = 300000
+				}
+			}
+		},
+		keys = {
+			{
+				'<leader>ac',
+				require('avante.api').open_chat(),
+				desc = 'Open the [A]I [C]hat, powered by Avante'
+			},
+			{
+				'<leader>a+',
+				function()
+					require('avante.extensions.nvim_tree').add_file()
+				end,
+				desc = 'Select file in NvimTree',
+				ft = 'NvimTree',
+			},
+			{
+				'<leader>a-',
+				function()
+					require('avante.extensions.nvim_tree').remove_file()
+				end,
+				desc = 'Deselect file in NvimTree',
+				ft = 'NvimTree',
+			},
+		},
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'MunifTanjim/nui.nvim',
+			'nvim-telescope/telescope.nvim', -- file_selector provider
+			'saghen/blink.cmp', -- autocompletion for avante commands and mentions
+			'nvim-tree/nvim-tree',
+			'nvim-tree/nvim-web-devicons',
+			'zbirenbaum/copilot.lua', -- if providers='copilot'
+			'stevearc/dressing.nvim',
+			'folke/snacks.nvim',
+			{
+				'MeanderingProgrammer/render-markdown.nvim',
+				opts = { file_types = { 'markdown', 'Avante' } },
+				ft = { 'markdown', 'Avante' },
+			},
+		},
+	},
 	{
 		-- Cloak is a plugin that hides secret environment variables in your
 		-- code, such as API keys, passwords, etc. It does this by replacing
