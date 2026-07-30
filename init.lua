@@ -1346,7 +1346,7 @@ require('lazy').setup({
 				acp_follow_agent_locations = true,
 				auto_add_current_file = true,
 				auto_apply_diff_after_generation = false,
-				auto_approve_tool_permissions = true,
+				auto_approve_tool_permissions = false,
 				auto_set_highlight_group = true,
 				auto_set_keymaps = true,
 				auto_suggestions = false,
@@ -1356,38 +1356,20 @@ require('lazy').setup({
 				support_paste_from_clipboard = true
 			},
 			instructions_file = 'agents.md',
-			provider = 'ollama',
+			provider = 'copilot',
 			providers = {
+				copilot = {
+					name = 'Github Copilot',
+					model = os.getenv('COPILOT_MODEL') or 'gpt-4o-2024-11-20',
+					reasoning_effort = 'high'
+				},
 				ollama = {
 					endpoint = os.getenv('OLLAMA_API_URL'),
 					name = 'Ollama Local Models',
-					models = { 'devass:v1.2', 'gwen:v1.1', 'tab:v1.0' },
+					model = os.getenv('OLLAMA_MODEL'),
 					timeout = 300000
 				}
 			}
-		},
-		keys = {
-			{
-				'<leader>ac',
-				require('avante.api').open_chat(),
-				desc = 'Open the [A]I [C]hat, powered by Avante'
-			},
-			{
-				'<leader>a+',
-				function()
-					require('avante.extensions.nvim_tree').add_file()
-				end,
-				desc = 'Select file in NvimTree',
-				ft = 'NvimTree',
-			},
-			{
-				'<leader>a-',
-				function()
-					require('avante.extensions.nvim_tree').remove_file()
-				end,
-				desc = 'Deselect file in NvimTree',
-				ft = 'NvimTree',
-			},
 		},
 		dependencies = {
 			'nvim-lua/plenary.nvim',
