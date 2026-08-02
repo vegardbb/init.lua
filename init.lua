@@ -500,7 +500,7 @@ require('lazy').setup({
 			}
 
 			-- Load environment file
-			require('plenary.environment').load_env()
+            require('vegardbb.load_env')
 
 			-- Enable Telescope extensions if they are installed
 			pcall(require('telescope').load_extension, 'fzf')
@@ -1356,17 +1356,17 @@ require('lazy').setup({
 				support_paste_from_clipboard = true
 			},
 			instructions_file = 'agents.md',
-			provider = 'copilot',
+			provider = 'ollama',
 			providers = {
 				copilot = {
 					name = 'Github Copilot',
-					model = os.getenv('COPILOT_MODEL') or 'gpt-4o-2024-11-20',
+					model = vim.env.COPILOT_MODEL or 'gpt-4o-2024-11-20',
 					reasoning_effort = 'high'
 				},
 				ollama = {
-					endpoint = os.getenv('OLLAMA_API_URL'),
+					endpoint = vim.env.OLLAMA_API_URL,
 					name = 'Ollama Local Models',
-					model = os.getenv('OLLAMA_MODEL'),
+					model = vim.env.OLLAMA_MODEL,
 					timeout = 300000
 				}
 			}
@@ -1376,7 +1376,7 @@ require('lazy').setup({
 			'MunifTanjim/nui.nvim',
 			'nvim-telescope/telescope.nvim', -- file_selector provider
 			'saghen/blink.cmp', -- autocompletion for avante commands and mentions
-			'nvim-tree/nvim-tree',
+			'nvim-tree/nvim-tree.lua',
 			'nvim-tree/nvim-web-devicons',
 			'zbirenbaum/copilot.lua', -- if providers='copilot'
 			'stevearc/dressing.nvim',
