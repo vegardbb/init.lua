@@ -410,6 +410,8 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
+			    -- TODO: setup Avante.nvim on <leader>a instead of CodeCompanion
+				{ '<leader>a', group = '[A]I', mode = { 'n', 'v' } },
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 				{ '<leader>l', group = '[L]SP commands' },
@@ -1331,6 +1333,8 @@ require('lazy').setup({
 		--	- Treesitter + textobjects:
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
+
+    -- TODO: PUT AVANTE.NVIM CONFIG HERE
 
 	{
 		-- Cloak is a plugin that hides secret environment variables in your
