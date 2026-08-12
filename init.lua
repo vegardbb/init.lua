@@ -414,7 +414,7 @@ require('lazy').setup({
 
 			-- Document existing key chains
 			spec = {
-				{ '<leader>a', group = '[A]I' },
+				{ '<leader>c', group = '[C]opilot code completions (TODO)' },
 				{ '<leader>g', group = '[G]it' },
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 				{ '<leader>l', group = '[L]SP commands' },
@@ -1327,66 +1327,6 @@ require('lazy').setup({
 		--		https://github.com/nvim-treesitter/nvim-treesitter-context
 		--	- Treesitter + textobjects:
 		--		https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	},
-	{ -- Avante: Chat + interactive AI experience, with a local Ollama server
-		'yetone/avante.nvim',
-		event = 'VeryLazy',
-		lazy = false,
-		version = false,
-		build = 'make BUILD_FROM_SOURCE=true',
-		cond = hasMake,
-		opts = {
-			selector = {exclude_auto_select = { 'NvimTree' } },
-			windows = {
-				position = 'right',
-				wrap = true,
-				width = 35
-			},
-			behaviour = {
-				acp_follow_agent_locations = true,
-				auto_add_current_file = true,
-				auto_apply_diff_after_generation = false,
-				auto_approve_tool_permissions = false,
-				auto_set_highlight_group = true,
-				auto_set_keymaps = true,
-				auto_suggestions = false,
-				confirmation_ui_style = 'inline_buttons',
-				enable_token_counting = true,
-				minimize_diff = true,
-				support_paste_from_clipboard = true
-			},
-			instructions_file = 'agents.md',
-			provider = 'ollama',
-			providers = {
-				copilot = {
-					name = 'Github Copilot',
-					model = vim.env.COPILOT_MODEL or 'gpt-4o-2024-11-20',
-					reasoning_effort = 'high'
-				},
-				ollama = {
-					endpoint = vim.env.OLLAMA_API_URL,
-					name = 'Ollama Local Models',
-					model = vim.env.OLLAMA_MODEL,
-					timeout = 300000
-				}
-			}
-		},
-		dependencies = {
-			'nvim-lua/plenary.nvim',
-			'MunifTanjim/nui.nvim',
-			'nvim-telescope/telescope.nvim', -- file_selector provider
-			'saghen/blink.cmp', -- autocompletion for avante commands and mentions
-			'nvim-tree/nvim-tree.lua',
-			'nvim-tree/nvim-web-devicons',
-			'zbirenbaum/copilot.lua', -- if providers='copilot'
-			'stevearc/dressing.nvim',
-			'folke/snacks.nvim',
-			{
-				'MeanderingProgrammer/render-markdown.nvim',
-				opts = { file_types = { 'markdown', 'Avante' } },
-				ft = { 'markdown', 'Avante' },
-			},
-		},
 	},
 	{
 		-- Cloak is a plugin that hides secret environment variables in your

@@ -25,12 +25,11 @@ External Requirements:
 - A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
   - if you have one set in your terminal, set the value of `vim.g.have_nerd_font` in `init.lua` to `true`
 - Emoji fonts (for Ubuntu only): `sudo apt install fonts-noto-color-emoji`
-- To make the Avante.ai plugin work, you will need the rustlang toolchain, available [here](https://rustup.rs/)
 - Language Setup:
   - If you want to write Typescript, you will need `node` and `npm`
   - If you want to write Golang, you will need the `go` binaries
   - And so on
-- You will need to setup Copilot in your GitHub settings to make `copilot.lua` working (note: this config installs a community maintained plugin, the official one sported by Github is called `copilot.vim`, and is harder to integrate into Avante)
+- You will need to setup Copilot in your GitHub settings to make `copilot.lua` working (note: this config installs a community maintained plugin, the official one sported by Github is called `copilot.vim`)
   - Note that `copilot.lua` requires your Neovim installation to be v0.11.0 at oldest and Node.js at v22 at oldest, in addition to Curl
 - `curl`, at least version 8.12, needs to be a runnable command on your system
 - `npm` must be a runnable command on your system, so that you may run `npm i tree-sitter-cli -g`, which is required only to make parsing of TeX files work in tree-sitter (but if you aren't loading latex projects into neovim, you'll be fine)
