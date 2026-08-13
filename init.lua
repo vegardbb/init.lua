@@ -1208,7 +1208,69 @@ require('lazy').setup({
 			signature = { enabled = true },
 		},
 	},
-
+	{
+		'zbirenbaum/copilot.lua',
+		cmd = "Copilot",
+		event = "InsertEnter",
+		opts = {
+			panel = {
+				enabled = true,
+				auto_refresh = true,
+				keymap = {
+					jump_prev = '<M-[',
+					jump_next = '<M-]>',
+					accept = '<M-a>',
+					refresh = '<M-r>',
+					open = '<M-o>',
+				},
+				layout = {
+					position = 'right', -- | top | left | right | bottom |
+					ratio = 0.35,
+				},
+			},
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				hide_during_completion = true,
+				trigger_on_accept = true,
+				debounce = 75,
+				keymap = {
+					accept = '<C-a>',
+					accept_word = false,
+					accept_line = false,
+					next = '<C-]>',
+					prev = '<C-[>',
+					dismiss = '<C-x>',
+				},
+			},
+		},
+		keys = { -- Copilot keymaps
+			{
+				'<leader>ca',
+				function()
+					require('copilot').auth()
+				end,
+				mode = 'n',
+				desc = '[C]opilot [A]uth',
+			},
+			{
+				'<leader>cc',
+				function()
+					require('copilot').setup()
+				end,
+				mode = 'n',
+				desc = '[C]opilot [C]onfigure',
+			},
+			{
+				'<leader>ct',
+				function()
+					require('copilot').toggle()
+				end,
+				mode = 'n',
+				desc = '[C]opilot [T]oggle',
+			},
+		},
+	},
 	-- Pro tip: use the command `:Telescope colorscheme` to see
 	-- which color schemes are already available
 	{ -- You can easily change to a different colorscheme plugin.
